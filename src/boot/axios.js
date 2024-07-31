@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-    baseURL: process.env.API_REST,
+    baseURL: import.meta.VITE_API_REST,
     withCredentials: true,
 });
 
