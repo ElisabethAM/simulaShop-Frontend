@@ -20,10 +20,12 @@
               <router-view></router-view>
             </main>
             <footer class="footer mx-5">
-              <v-btn class="no-focus" color="#B98D4C">
+              <router-link to="bienvenido" >
+                <v-btn class="no-focus" color="#B98D4C">
                 Iniciar
                 <img src="../assets/play.png" alt="icono" class="ml-3">
               </v-btn>
+              </router-link>
               <v-btn class="no-focus" color="#B98D4C">
                 Guía rápida
                 <img src="../assets/play.png" alt="icono" class="ml-3">

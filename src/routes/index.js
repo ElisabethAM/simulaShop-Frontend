@@ -6,6 +6,16 @@ const routes = [
   {
     path: '/',
     component: IndexPage,
+  },
+  {
+    path: '/bienvenido',
+    name: 'Bienvenido',
+    component: MainLayout,
+  },
+  {
+    path: '/nuevaTienda',
+    name: 'Nueva Tienda',
+    component: MainLayout,
   }
 ];
 
