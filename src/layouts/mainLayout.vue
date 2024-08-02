@@ -10,19 +10,19 @@
                 <v-col cols="1">
                   <img src="../assets/tienda.svg" alt="Logo" class="header-logo ">
                 </v-col>
-                <v-col cols="4">
+                <v-col cols="4"> 
                   <h2 class="header-title">{{ tittle }}</h2>
                 </v-col>
                 <v-col cols="4">
                 </v-col>
                 <v-col cols="2">
-                  <router-link to="/">
+                  <router-link :to="previusRoute">
                     <h2 class="header-title" style="">volver</h2>
                   </router-link>
                 </v-col>
                 <v-col cols="1">
-                  <router-link to="/">
-                    <img src="../assets/volver.png" alt="Logo" class="header-logo-volver">
+                  <router-link :to="previusRoute">
+                    <img src="../assets/volver.png"  alt="Logo" class="header-logo-volver">
                   </router-link>
                 </v-col>
               </v-row>
@@ -34,6 +34,9 @@
                 <div v-if="route.path === '/nuevaTienda'">
                   <NuevaTienda></NuevaTienda>
                 </div>
+                <div v-if="route.path === '/bienvenido'">
+                  <Bienvenido></Bienvenido>
+                </div>
               </v-col>
             </v-row>
           </main>
@@ -44,31 +47,36 @@
 </template>
 
 <script>
-import { ref,watchEffect  } from 'vue';
+import { ref,watchEffect,watch   } from 'vue';
 import { useRoute } from 'vue-router';
 import NuevaTienda from '../pages/nuevaTienda.vue'
+import Bienvenido from '../pages/bienvenido.vue'
 
 export default {
-  components: { NuevaTienda },
+  components: { NuevaTienda,Bienvenido },
   name: 'MainLayout',
   setup() {
-    const tittle = ref('');
     const route = useRoute();
+    const tittle = ref('');
+    const previusRoute = ref('');
 
     watchEffect(() => {
       switch (route.path) {
         case '/bienvenido':
           tittle.value = 'Bienvenido';
+          previusRoute.value= '/'
           break;
           case '/nuevaTienda':
           tittle.value = 'Nueva Tienda';
+          previusRoute.value = '/bienvenido'
           break;
         default:
           tittle.value = 'Título por Defecto';
       }
     });
 
-    return { tittle,route };
+   
+    return { tittle,route,previusRoute };
   },
 };
 </script>
