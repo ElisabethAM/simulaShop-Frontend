@@ -16,6 +16,26 @@ const routes = [
     path: '/nuevaTienda',
     name: 'Nueva Tienda',
     component: MainLayout,
+  },
+  {
+    path: '/gestionarTienda/:id',
+    name: 'Gestionar Tienda',
+    component: MainLayout,
+  },
+  {
+    path: '/configurarProductos/:id',
+    name: 'Configurar Productos',
+    component: MainLayout,
+  },
+  {
+    path: '/gestionBeneficios/:id',
+    name: 'Gestion de beneficios',
+    component: MainLayout,
+  },
+  {
+    path: '/historico/:id',
+    name: 'Historico',
+    component: MainLayout,
   }
 ];
 

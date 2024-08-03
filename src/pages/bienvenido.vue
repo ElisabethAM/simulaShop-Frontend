@@ -7,7 +7,9 @@
   <br>
   <v-row  class=" scroll-container ">
       <v-col v-for="i in 10" :key="i" cols="4" class="cards">
+        <router-link :to="{ name: 'Gestionar Tienda', params: { id: i } }">
         <Card :tittle="'Tienda de beneficios ' + i " :lastBenefits="lastBenefits" />
+        </router-link>
       </v-col>
   </v-row>
 

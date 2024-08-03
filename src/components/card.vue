@@ -1,6 +1,5 @@
 <template>
-    <router-link to="">
-        <v-card  class="crema scaled-card elevation-6 mb-3 pb-3">
+    <v-card class="crema scaled-card elevation-6 mb-3 pb-3">
         <v-card-text class="pa-0">
             <header class="header">
                 <v-row class="ma-2" align="center">
@@ -32,7 +31,6 @@
             </v-row>
         </main>
     </v-card>
-    </router-link>
 </template>
 
 <script>
@@ -45,7 +43,7 @@ export default {
     },
     lastBenefits: {
         type: String,
-        required: true
+        required: false
     }
   }
 }

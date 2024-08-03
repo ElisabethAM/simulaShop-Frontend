@@ -51,14 +51,14 @@
         </v-col>
         <v-col cols="11">
           <h2>
-            El  nuevo registro de beneficios de la {{ storeName }} contará con {{ quantity }} {{ cicleType }}.
+            El nuevo registro de beneficios de la {{ storeName }} contará con {{ quantity }} {{ cicleType }}.
           </h2>
         </v-col>
       </v-row>
     </div>
   </div>
   <div class="footer my-8 justify-end">
-    <router-link to="/">
+    <router-link :to="`/gestionarTienda/${idStore}`">
       <v-btn class="d-flex no-focus pa-6 justify-center" color="#B98D4C">
         <h3>Empezar a gestionar</h3>
         <img src="../assets/play.png" alt="icono" class="play ml-3">
@@ -75,8 +75,10 @@ export default {
     const storeName = ref('');
     const quantity = ref('');
     const cicleType = ref('');
+    const idStore = ref(0)
+    idStore.value = 2; //por mientras
 
-    return { storeName,quantity,cicleType };
+    return { storeName, quantity, cicleType,idStore };
   },
 }
 </script>
@@ -115,6 +117,7 @@ export default {
 .info {
   background-color: #393534;
   color: #EDE5D8;
-  max-width: 90%; /* Ajusta según sea necesario */
+  max-width: 90%;
+  /* Ajusta según sea necesario */
 }
 </style>
