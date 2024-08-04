@@ -43,6 +43,9 @@
                 <div v-if="route.name === 'Configurar Productos'">
                   <Inventario></Inventario>
                 </div>
+                <div v-if="route.name === 'Historico'">
+                  <Historico></Historico>
+                </div>
               </v-col>
             </v-row>
           </main>
@@ -59,9 +62,10 @@ import NuevaTienda from '../pages/nuevaTienda.vue';
 import Bienvenido from '../pages/bienvenido.vue';
 import GestionarStore from '../pages/gestionarStore.vue';
 import Inventario from '../pages/inventario.vue'
+import Historico from '../pages/historico.vue'
 
 export default {
-  components: { NuevaTienda, Bienvenido, GestionarStore,Inventario },
+  components: { NuevaTienda, Bienvenido, GestionarStore,Inventario,Historico },
   name: 'MainLayout',
   setup() {
     const route = useRoute();
@@ -91,8 +95,11 @@ export default {
             tittle.value = 'Cargar comentarios...';
             previusRoute.value = `/gestionarTienda/${id.value}`;
           }else if (route.name === 'Historico') {
-            tittle.value = 'Proyecciones y ciclos';
+            tittle.value = 'Histórico';
             previusRoute.value = `/gestionarTienda/${id.value}`;
+          }else if (route.name === 'Resultados Historico') {
+            tittle.value = 'Resultados';
+            previusRoute.value = `/historico/${id.value}`;
           }else {
             tittle.value = 'Título por Defecto';
           }

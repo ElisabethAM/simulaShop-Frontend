@@ -61,9 +61,7 @@
                 <div class="custom-checkbox">
                     <input v-model="localProduct.seleccionado" @blur="updateProd()" type="checkbox" id="checkbox">
                 </div>
-                
                     <img src="../assets/delete.png" @click="showDeleteDialog = true" alt="icono" class="delete mt-3">
-              
             </v-row>
         </v-card-actions>
     </v-card>

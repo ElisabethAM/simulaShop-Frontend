@@ -36,7 +36,12 @@ const routes = [
     path: '/historico/:id',
     name: 'Historico',
     component: MainLayout,
-  }
+  },
+  {
+    path: '/resultados/:id',
+    name: 'Resultados Historico',
+    component: MainLayout,
+  },
 ];
 
 const router = createRouter({
