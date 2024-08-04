@@ -1,6 +1,7 @@
 <template>
     <br>
     <h2>Productos registrados</h2>
+    <h2>Beneficios actuales: {{ benefits }} Lps</h2>
     <br>
     <hr>
     <hr>
@@ -13,7 +14,7 @@
                 <v-row class="d-flex flex-column align-center">
                     <v-col cols="10">
 
-                        <img src="../assets/newProduct.png" @click="showNewProdDialog = true" class="responsive-image"
+                        <img src="../assets/newProduct.png" @click="showNewProdDialog = true" class="responsive-image cursor-pointer"
                             alt="imagen">
 
                     </v-col>
@@ -208,6 +209,7 @@ const newPrecioVenta = ref()
 const newDemandaMin = ref()
 const newDemandaMax = ref()
 const newDisponibles = ref()
+const benefits = ref('10,000,000')
 const newTipo = ref()//para las imagenes de los prods
 
 const addProduct = () => {
@@ -242,7 +244,7 @@ const addProduct = () => {
 
 .crema {
     background: #F8F8F8;
-    min-height: 400px;
+    min-height: 415px;
 }
 
 .responsive-image {

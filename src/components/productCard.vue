@@ -2,9 +2,15 @@
     <v-card class="crema scaled-card elevation-6  pb-0">
         <v-card-text class="pa-0">
             <header class="header">
-                <v-row class="ma-2" align="center">
-                    <v-col cols="12">
-                        <h4 class="header-title">{{ title }}</h4>
+                <v-row class="ma-2 d-flex justify-space-between align-center">
+                    <v-col cols="9">
+                        <h4 class="header-title text-left">{{ title }}</h4>
+                    </v-col>
+                    <v-col cols="3">
+                        <div class="custom-checkbox">
+                            <input v-model="localProduct.seleccionado" @click="updateProd()" type="checkbox"
+                                id="checkbox">
+                        </div>
                     </v-col>
                 </v-row>
             </header>
@@ -20,7 +26,8 @@
                     <p>Precio compra:</p>
                 </v-col>
                 <v-col cols="4" class="py-0">
-                    <input v-model="localProduct.precioCompra" @blur="updateProd()" type="text" class="columnas" placeholder="0.00">
+                    <input :disabled="!editing" v-model="localProduct.precioCompra" type="text" class="columnas"
+                        placeholder="0.00">
                 </v-col>
             </v-row>
             <v-row class="px-5">
@@ -28,7 +35,8 @@
                     <p>Precio venta:</p>
                 </v-col>
                 <v-col cols="4" class="py-0">
-                    <input v-model="localProduct.precioVenta" @blur="updateProd()" type="text" class="columnas" placeholder="0.00">
+                    <input :disabled="!editing" v-model="localProduct.precioVenta" type="text" class="columnas"
+                        placeholder="0.00">
                 </v-col>
             </v-row>
             <v-row class="px-5">
@@ -36,7 +44,8 @@
                     <p>Demanda mínima:</p>
                 </v-col>
                 <v-col cols="4" class="py-0">
-                    <input v-model="localProduct.demandaMin" @blur="updateProd()" type="text" class="columnas" placeholder="0.00">
+                    <input :disabled="!editing"  v-model="localProduct.demandaMin" type="text" class="columnas"
+                        placeholder="0.00">
                 </v-col>
             </v-row>
             <v-row class="px-5">
@@ -44,7 +53,8 @@
                     <p>Demanda máxima:</p>
                 </v-col>
                 <v-col cols="4" class="py-0">
-                    <input v-model="localProduct.demandaMax" @blur="updateProd()" type="text" class="columnas" placeholder="0.00">
+                    <input :disabled="!editing" v-model="localProduct.demandaMax" type="text" class="columnas"
+                        placeholder="0.00">
                 </v-col>
             </v-row>
             <v-row class="px-5">
@@ -52,16 +62,30 @@
                     <p>En bodega:</p>
                 </v-col>
                 <v-col cols="4" class="py-0">
-                    <input v-model="localProduct.disponibles" @blur="updateProd()" type="text" class="columnas" placeholder="0.00">
+                    <input disabled="true" v-model="localProduct.disponibles" type="text" class="columnas"
+                        placeholder="0.00">
                 </v-col>
             </v-row>
         </main>
         <v-card-actions>
-            <v-row class="px-5 pt-4 d-flex align-center justify-space-between">
-                <div class="custom-checkbox">
-                    <input v-model="localProduct.seleccionado" @blur="updateProd()" type="checkbox" id="checkbox">
+            <v-row class="px-5 pt-4 d-flex align-center justify-space-between ">
+                <div v-if="!editing">
+                    <img src="../assets/editProd.png"  @click="editing=true"  alt="icono" class="delete cursor-pointer mt-3">
                 </div>
-                    <img src="../assets/delete.png" @click="showDeleteDialog = true" alt="icono" class="delete mt-3">
+                <div v-if="!editing">
+                    <img src="../assets/comprar.png" @click="showShopDialog = true" alt="icono" class="delete cursor-pointer mt-3">
+                </div>
+                <!-- para guardar cambios -->
+                <div v-if="editing">
+                    <img src="../assets/check.png" @click="updateProd" alt="icono" class="delete cursor-pointer mt-3">
+                </div>
+                <div v-if="editing">
+                    <img src="../assets/cancel.png" @click="editing=false" alt="icono" class="cancel cursor-pointer mt-3">
+                </div>
+                <!-- borrar prod -->
+                <div >
+                    <img src="../assets/delete.png" @click="showDeleteDialog = true" alt="icono" class="delete cursor-pointer mt-3">
+                </div>
             </v-row>
         </v-card-actions>
     </v-card>
@@ -69,70 +93,101 @@
 
     <!-- dialogo para eliminar producto -->
     <v-dialog v-model="showDeleteDialog" max-width="500">
-      <v-card>
-        <v-card-title class="headline">Eliminar Producto</v-card-title>
-        <v-card-text>
-          ¿Esta seguro de eliminar este producto?
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="green darken-1" text @click="showDeleteDialog=false">Cancelar</v-btn>
-          <v-btn color="red darken-1" text @click="deleteProduct">Eliminar</v-btn>
-        </v-card-actions>
-      </v-card>
+        <v-card>
+            <v-card-title class="headline">Eliminar Producto</v-card-title>
+            <v-card-text>
+                ¿Esta seguro de eliminar este producto?
+            </v-card-text>
+            <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="green darken-1" text @click="showDeleteDialog = false">Cancelar</v-btn>
+                <v-btn color="red darken-1" text @click="deleteProduct">Eliminar</v-btn>
+            </v-card-actions>
+        </v-card>
+    </v-dialog>
+
+    <!-- dialogo para comprar producto -->
+    <v-dialog v-model="showShopDialog" max-width="400">
+        <v-card>
+            <v-card-title class="headline">Comprar productos, {{ title }}</v-card-title>
+            <main>
+                <v-row class="px-5">
+                    <v-col cols="7" class="text-left py-0">
+                        <p>cantidad:</p>
+                    </v-col>
+                    <v-col cols="4" class="py-0">
+                        <input v-model="newQuantity" type="text" class="columnas" placeholder="0">
+                    </v-col>
+                </v-row>
+            </main>
+            <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="green darken-1" text @click="sumQuantity">Añadir</v-btn>
+                <v-btn color="red darken-1" text @click="showShopDialog= false">Cancelar</v-btn>
+            </v-card-actions>
+        </v-card>
     </v-dialog>
 
     <!-- campos actualizados @blur -->
     <v-snackbar v-model="snackbar" :timeout="timeout" color="green">
-        Campo actualizado
-      </v-snackbar>
+        Producto actualizado
+    </v-snackbar>
 </template>
 
 <script setup>
 import { ref, watch, defineProps } from 'vue';
 
 const showDeleteDialog = ref(false);
+const showShopDialog = ref(false);
 const snackbar = ref(false);
-const timeout = 1000; 
+const timeout = 1000;
+const editing = ref(false)
 
 const props = defineProps({
-  title: String,
-  img: String,
-  precioCompra: Number,
-  precioVenta: Number,
-  demandaMin: Number,
-  demandaMax: Number,
-  disponibles: Number,
-  seleccionado: Boolean,
+    title: String,
+    img: String,
+    precioCompra: Number,
+    precioVenta: Number,
+    demandaMin: Number,
+    demandaMax: Number,
+    disponibles: Number,
+    seleccionado: Boolean,
 });
 
 const localProduct = ref({
-  precioCompra: props.precioCompra,
-  precioVenta: props.precioVenta,
-  demandaMin: props.demandaMin,
-  demandaMax: props.demandaMax,
-  disponibles: props.disponibles,
-  seleccionado: props.seleccionado
+    precioCompra: props.precioCompra,
+    precioVenta: props.precioVenta,
+    demandaMin: props.demandaMin,
+    demandaMax: props.demandaMax,
+    disponibles: props.disponibles,
+    seleccionado: props.seleccionado
 });
 
 const deleteProduct = () => {
-  // Lógica para eliminar el producto
-  console.log('Producto eliminado');
-  showDeleteDialog.value = false;
+    // Lógica para eliminar el producto
+    console.log('Producto eliminado');
+    showDeleteDialog.value = false;
+};
+
+const sumQuantity = () => {
+    //usar el newQuantity
+    console.log('Se han agregados más productos');
+    showShopDialog.value = false;
 };
 
 const updateProd = () => {
-    snackbar.value = true;;
+    editing.value=false;
+    snackbar.value = true;
 };
 
 
 watch(() => props, (newProps) => {
-  localProduct.value = { ...newProps };
+    localProduct.value = { ...newProps };
 }, { deep: true });
 
 watch(localProduct, (newValue) => {
-  // Emit changes to parent component if needed
-  // emit('update:product', newValue);
+    // Emit changes to parent component if needed
+    // emit('update:product', newValue);
 }, { deep: true });
 </script>
 
@@ -183,6 +238,11 @@ watch(localProduct, (newValue) => {
     outline: none;
 }
 
+.columnas:disabled {
+  color: gray;
+  /* cursor: not-allowed; */
+}
+
 .columnas::placeholder {
     color: #999;
 }
@@ -211,6 +271,10 @@ p {
     height: 50px;
 }
 
+.cancel{
+    height: 40px;
+}
+
 .warning {
     color: red;
 }
@@ -233,7 +297,7 @@ p {
 
 .crema {
     background: #F8F8F8;
-    min-height: 400px;
+    min-height: 415px;
 }
 
 .header {
