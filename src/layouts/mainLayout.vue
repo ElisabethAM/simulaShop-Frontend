@@ -40,6 +40,9 @@
                 <div v-if="route.name === 'Gestionar Tienda'">
                   <GestionarStore></GestionarStore>
                 </div>
+                <div v-if="route.name === 'Configurar Productos'">
+                  <Inventario></Inventario>
+                </div>
               </v-col>
             </v-row>
           </main>
@@ -55,9 +58,10 @@ import { useRoute } from 'vue-router';
 import NuevaTienda from '../pages/nuevaTienda.vue';
 import Bienvenido from '../pages/bienvenido.vue';
 import GestionarStore from '../pages/gestionarStore.vue';
+import Inventario from '../pages/inventario.vue'
 
 export default {
-  components: { NuevaTienda, Bienvenido, GestionarStore },
+  components: { NuevaTienda, Bienvenido, GestionarStore,Inventario },
   name: 'MainLayout',
   setup() {
     const route = useRoute();
