@@ -172,7 +172,7 @@ const chartData = {
   labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6'],
   datasets: [
     {
-      label: 'Dataset',
+      label: 'Ganancias por ciclo',
       fill: true,
       data: [6,2,3,1,5,6],
       borderColor: " #B98D4C",
