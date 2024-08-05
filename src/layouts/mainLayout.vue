@@ -15,7 +15,8 @@
                 </v-col>
                 <v-col cols="4">
                 </v-col>
-                <v-col cols="2">
+                <div v-if="showbtn">
+                  <v-col cols="2">
                   <router-link :to="previusRoute">
                     <h2 class="header-title">Volver</h2>
                   </router-link>
@@ -25,6 +26,7 @@
                     <img src="../assets/volver.png" alt="Logo" class="header-logo-volver">
                   </router-link>
                 </v-col>
+                </div>
               </v-row>
             </header>
           </v-card-text>
@@ -46,6 +48,9 @@
                 <div v-if="route.name === 'Historico'">
                   <Historico></Historico>
                 </div>
+                <div v-if="route.name === 'Resultados'">
+                  <Resultados></Resultados>
+                </div>
               </v-col>
             </v-row>
           </main>
@@ -63,15 +68,17 @@ import Bienvenido from '../pages/bienvenido.vue';
 import GestionarStore from '../pages/gestionarStore.vue';
 import Inventario from '../pages/inventario.vue'
 import Historico from '../pages/historico.vue'
+import Resultados from '../pages/resultados.vue'
 
 export default {
-  components: { NuevaTienda, Bienvenido, GestionarStore,Inventario,Historico },
+  components: { NuevaTienda, Bienvenido, GestionarStore,Inventario,Historico,Resultados },
   name: 'MainLayout',
   setup() {
     const route = useRoute();
     const tittle = ref('');
     const previusRoute = ref('');
     const id = ref(route.params.id);
+    const showbtn= ref(true)
 
     watchEffect(() => {
       switch (route.path) {
@@ -100,6 +107,9 @@ export default {
           }else if (route.name === 'Resultados Historico') {
             tittle.value = 'Resultados';
             previusRoute.value = `/historico/${id.value}`;
+          }else if (route.name === 'Resultados') {
+            tittle.value = 'Resultados';
+            showbtn.value=false;
           }else {
             tittle.value = 'Título por Defecto';
           }
