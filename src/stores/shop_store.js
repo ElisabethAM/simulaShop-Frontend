@@ -21,6 +21,6 @@ export const useShopStore = defineStore("shop", () => {
   return {
     shops,
     getShops,
-    shops,
+    shop,
   };
 });
