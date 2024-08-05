@@ -1,42 +1,56 @@
 <template>
-  <br>
+  <br />
   <h2>Tiendas registradas</h2>
-  <br>
-  <hr>
-  <hr>
-  <br>
-  <v-row  class=" scroll-container ">
-      <v-col v-for="i in 10" :key="i" cols="4" class="cards">
-        <router-link :to="{ name: 'Gestionar Tienda', params: { id: i } }">
-        <Card :tittle="'Tienda de beneficios ' + i " :lastBenefits="lastBenefits" />
-        </router-link>
-      </v-col>
+  <br />
+  <hr />
+  <hr />
+  <br />
+  <v-row class="scroll-container">
+    <v-col v-for="store in stores" :key="store._id" cols="4" class="cards">
+      <router-link
+        :to="{ name: 'Gestionar Tienda', params: { id: store.name } }"
+      >
+        <Card
+          :tittle="store.name"
+          :lastBenefits="store.money"
+          @click="enviarStore(store)"
+        />
+      </router-link>
+    </v-col>
   </v-row>
 
   <div class="footer my-8 justify-end">
     <router-link to="/nuevaTienda">
       <v-btn class="d-flex no-focus pa-6 justify-center" color="#B98D4C">
         <h3>Nuevo registro</h3>
-        <img src="../assets/nuevo.png" alt="icono" class="play ml-3">
+        <img src="../assets/nuevo.png" alt="icono" class="play ml-3" />
       </v-btn>
     </router-link>
   </div>
 </template>
 
-<script>
-import Card from '../components/card.vue';
-import { ref } from 'vue';
-export default {
-  name: 'Bienvenido',
-  components: { Card },
-  setup() {
-    const tittle = ref('');
-    const lastBenefits = ref('10,000,000 Lps');
+<script setup>
+import Card from "../components/card.vue";
+import { ref } from "vue";
+import { useShopStore } from "../stores/shop_store.js";
 
-    return { tittle, lastBenefits };
-  },
+const shopStore = useShopStore();
+const stores = ref(null);
 
-}
+const getStores = async () => {
+  await shopStore.getShops();
+  stores.value = shopStore.shops;
+};
+
+getStores();
+
+const enviarStore = (store) => {
+  shopStore.shop = store;
+};
+
+const name = ref("Bienvendido");
+const tittle = ref("");
+const lastBenefits = ref("10,000,000 Lps");
 </script>
 
 <style scoped>
@@ -47,7 +61,6 @@ export default {
   justify-content: flex-start;
   align-items: center;
   align-content: stretch;
-
 }
 
 .scroll-container {
@@ -60,8 +73,8 @@ export default {
 }
 
 .whiteContent {
-  background-color: #F8F8F8;
-  font-family: 'Inika', serif;
+  background-color: #f8f8f8;
+  font-family: "Inika", serif;
 }
 
 .no-focus:focus {

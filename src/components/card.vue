@@ -42,7 +42,7 @@ export default {
       required: true
     },
     lastBenefits: {
-        type: String,
+        type: Number,
         required: false
     }
   }
