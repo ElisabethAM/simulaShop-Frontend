@@ -85,7 +85,7 @@ const btnRoute = ref('');
 function setMsg(type, idStore) {
     if (type === 'gestion') {
         warningMsg.value = 'Aún no se ha configurado el inventario';
-        btnRoute.value = `/gestionBeneficios/${idStore}`;
+        btnRoute.value = `/cargando/${idStore}`;
     } else if (type === 'historico') {
         warningMsg.value = 'Aún no se han registrado resultados';
         btnRoute.value = `/historico/${idStore}`;

@@ -8,25 +8,30 @@
             <header class="header">
               <v-row class="ma-2" align="center">
                 <v-col cols="1">
-                  <img src="../assets/tienda.svg" alt="Logo" class="header-logo">
+                  <img
+                    src="../assets/tienda.svg"
+                    alt="Logo"
+                    class="header-logo"
+                  />
                 </v-col>
                 <v-col cols="4">
                   <h2 class="header-title">{{ tittle }}</h2>
                 </v-col>
-                <v-col cols="4">
-                </v-col>
-                <div v-if="showbtn">
-                  <v-col cols="2">
+                <v-col cols="4"> </v-col>
+                <v-col cols="2">
                   <router-link :to="previusRoute">
                     <h2 class="header-title">Volver</h2>
                   </router-link>
                 </v-col>
                 <v-col cols="1">
                   <router-link :to="previusRoute">
-                    <img src="../assets/volver.png" alt="Logo" class="header-logo-volver">
+                    <img
+                      src="../assets/volver.png"
+                      alt="Logo"
+                      class="header-logo-volver"
+                    />
                   </router-link>
                 </v-col>
-                </div>
               </v-row>
             </header>
           </v-card-text>
@@ -61,65 +66,71 @@
 </template>
 
 <script>
-import { ref, watchEffect, watch } from 'vue';
-import { useRoute } from 'vue-router';
-import NuevaTienda from '../pages/nuevaTienda.vue';
-import Bienvenido from '../pages/bienvenido.vue';
-import GestionarStore from '../pages/gestionarStore.vue';
-import Inventario from '../pages/inventario.vue'
-import Historico from '../pages/historico.vue'
-import Resultados from '../pages/resultados.vue'
+import { ref, watchEffect, watch } from "vue";
+import { useRoute } from "vue-router";
+import NuevaTienda from "../pages/nuevaTienda.vue";
+import Bienvenido from "../pages/bienvenido.vue";
+import GestionarStore from "../pages/gestionarStore.vue";
+import Inventario from "../pages/inventario.vue";
+import Historico from "../pages/historico.vue";
+import Resultados from "../pages/resultados.vue";
 
 export default {
-  components: { NuevaTienda, Bienvenido, GestionarStore,Inventario,Historico,Resultados },
-  name: 'MainLayout',
+  components: {
+    NuevaTienda,
+    Bienvenido,
+    GestionarStore,
+    Inventario,
+    Historico,
+    Resultados,
+  },
+  name: "MainLayout",
   setup() {
     const route = useRoute();
-    const tittle = ref('');
-    const previusRoute = ref('');
+    const tittle = ref("");
+    const previusRoute = ref("");
     const id = ref(route.params.id);
-    const showbtn= ref(true)
+    const showbtn = ref(true);
 
     watchEffect(() => {
       switch (route.path) {
-        case '/bienvenido':
-          tittle.value = 'Bienvenido';
-          previusRoute.value = '/'
-          showbtn.value=true;
+        case "/bienvenido":
+          tittle.value = "Bienvenido";
+          previusRoute.value = "/";
+          showbtn.value = true;
           break;
-        case '/nuevaTienda':
-          tittle.value = 'Nueva Tienda';
-          previusRoute.value = '/bienvenido'
-          showbtn.value=true;
+        case "/nuevaTienda":
+          tittle.value = "Nueva Tienda";
+          previusRoute.value = "/bienvenido";
+          showbtn.value = true;
           break;
         default:
-          if (route.name === 'Gestionar Tienda') {
-            tittle.value = 'Tienda ' + id.value;
-            previusRoute.value = '/bienvenido';
-            showbtn.value=true;
-          } 
-          else if (route.name === 'Configurar Productos') {
-            tittle.value = 'Inventario';
+          if (route.name === "Gestionar Tienda") {
+            tittle.value = id.value;
+            previusRoute.value = "/bienvenido";
+            showbtn.value = true;
+          } else if (route.name === "Configurar Productos") {
+            tittle.value = "Inventario";
             previusRoute.value = `/gestionarTienda/${id.value}`;
-            showbtn.value=true;
-          }else if (route.name === 'Gestion de beneficios') {
-            tittle.value = 'Cargar comentarios...';
+            showbtn.value = true;
+          } else if (route.name === "Gestion de beneficios") {
+            tittle.value = "Cargar comentarios...";
             previusRoute.value = `/gestionarTienda/${id.value}`;
-            showbtn.value=true;
-          }else if (route.name === 'Historico') {
-            tittle.value = 'Histórico';
+            showbtn.value = true;
+          } else if (route.name === "Historico") {
+            tittle.value = "Histórico";
             previusRoute.value = `/gestionarTienda/${id.value}`;
-            showbtn.value=true;
-          }else if (route.name === 'Resultados Historico') {
-            tittle.value = 'Resultados';
+            showbtn.value = true;
+          } else if (route.name === "Resultados Historico") {
+            tittle.value = "Resultados";
             previusRoute.value = `/historico/${id.value}`;
-            showbtn.value=true;
-          }else if (route.name === 'Resultados') {
-            tittle.value = 'Resultados';
-            showbtn.value=false;
-          }else {
-            tittle.value = 'Título por Defecto';
-            showbtn.value=true;
+            showbtn.value = true;
+          } else if (route.name === "Resultados") {
+            tittle.value = "Resultados";
+            showbtn.value = true;
+          } else {
+            tittle.value = "Título por Defecto";
+            showbtn.value = true;
           }
       }
     });
@@ -127,7 +138,7 @@ export default {
     watch(
       () => route.params.id,
       (newId) => {
-        id.value = newId;//id de la store en cuestion
+        id.value = newId; //id de la store en cuestion
       }
     );
 
@@ -148,7 +159,7 @@ export default {
   left: 0;
   width: 100%;
   height: 100%;
-  background: url('../assets/fondo.jpg') no-repeat center center;
+  background: url("../assets/fondo.jpg") no-repeat center center;
   background-size: cover;
   filter: blur(8px);
   z-index: -1;
@@ -166,11 +177,11 @@ export default {
 }
 
 h2 {
-  font-family: 'Inika', serif !important;
+  font-family: "Inika", serif !important;
 }
 
 .crema {
-  background: #EDE5D8;
+  background: #ede5d8;
 }
 
 .header {
@@ -181,7 +192,7 @@ h2 {
 
 .header-logo {
   height: 60px;
-  color: #B98D4C;
+  color: #b98d4c;
 }
 
 .header-logo-volver {
@@ -191,9 +202,9 @@ h2 {
 
 .header-title {
   margin: 0;
-  color: #EDE5D8;
+  color: #ede5d8;
   font-size: 2.3rem;
-  font-family: 'Inika', serif;
+  font-family: "Inika", serif;
 }
 
 .scaled-card {

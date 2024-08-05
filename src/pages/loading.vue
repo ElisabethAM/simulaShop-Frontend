@@ -37,6 +37,10 @@ import { useRouter } from 'vue-router';
 const router = useRouter();
 
 onMounted(() => {
+    const obtenerBeneficios = async() => {
+        
+    }
+
     setTimeout(() => {
         router.push({ name: 'Resultados' }); // Reemplaza '/ruta-destino' con la ruta a la que quieras redirigir
     }, 5000); // 5000 milisegundos = 5 segundos
