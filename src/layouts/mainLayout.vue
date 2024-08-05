@@ -85,33 +85,41 @@ export default {
         case '/bienvenido':
           tittle.value = 'Bienvenido';
           previusRoute.value = '/'
+          showbtn.value=true;
           break;
         case '/nuevaTienda':
           tittle.value = 'Nueva Tienda';
           previusRoute.value = '/bienvenido'
+          showbtn.value=true;
           break;
         default:
           if (route.name === 'Gestionar Tienda') {
             tittle.value = 'Tienda ' + id.value;
             previusRoute.value = '/bienvenido';
+            showbtn.value=true;
           } 
           else if (route.name === 'Configurar Productos') {
             tittle.value = 'Inventario';
             previusRoute.value = `/gestionarTienda/${id.value}`;
+            showbtn.value=true;
           }else if (route.name === 'Gestion de beneficios') {
             tittle.value = 'Cargar comentarios...';
             previusRoute.value = `/gestionarTienda/${id.value}`;
+            showbtn.value=true;
           }else if (route.name === 'Historico') {
             tittle.value = 'Histórico';
             previusRoute.value = `/gestionarTienda/${id.value}`;
+            showbtn.value=true;
           }else if (route.name === 'Resultados Historico') {
             tittle.value = 'Resultados';
             previusRoute.value = `/historico/${id.value}`;
+            showbtn.value=true;
           }else if (route.name === 'Resultados') {
             tittle.value = 'Resultados';
             showbtn.value=false;
           }else {
             tittle.value = 'Título por Defecto';
+            showbtn.value=true;
           }
       }
     });
