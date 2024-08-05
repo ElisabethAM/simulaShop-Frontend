@@ -8,7 +8,7 @@
   <v-row class="scroll-container">
     <v-col v-for="store in stores" :key="store._id" cols="4" class="cards">
       <router-link
-        :to="{ name: 'Gestionar Tienda', params: { id: store.name } }"
+        :to="{ name: 'Gestionar Tienda', params: { id: store._id } }"
       >
         <Card
           :tittle="store.name"
