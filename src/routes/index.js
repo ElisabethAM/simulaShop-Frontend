@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import IndexPage from '../pages/indexPage.vue';
 import MainLayout from '../layouts/mainLayout.vue';
+import Loading from '../pages/loading.vue'
 
 const routes = [
   {
@@ -38,8 +39,18 @@ const routes = [
     component: MainLayout,
   },
   {
-    path: '/resultados/:id',
+    path: '/resultadoshistorico/:id',
     name: 'Resultados Historico',
+    component: MainLayout,
+  },
+  {
+    path: '/cargando/:id',
+    name: 'Cargando',
+    component: Loading,
+  },
+  {
+    path: '/resultados/:id',
+    name: 'Resultados',
     component: MainLayout,
   },
 ];
