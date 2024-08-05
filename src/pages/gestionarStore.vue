@@ -48,7 +48,7 @@ const shopStore = useShopStore();
 const gestionShop = shopStore.shop;
 
 const idStore = ref(0);
-idStore.value = 2; //por mientras
+idStore.value = gestionShop._id; //por mientras
 </script>
 
 <style></style>

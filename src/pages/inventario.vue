@@ -1,7 +1,7 @@
 <template>
   <br />
   <h2>Productos registrados</h2>
-  <h2>Beneficios actuales: {{ benefits }} Lps</h2>
+  <h2>Beneficios actuales: {{ store.money }} Lps</h2>
   <br />
   <hr />
   <hr />
@@ -26,12 +26,10 @@
     </v-col>
 
     <!-- Productos existentes -->
-    <v-col
-      cols="4"
-      v-for="producto in inventario"
-      :key="producto.nombre"
-    >
+    <v-col cols="4" v-for="producto in inventario" :key="producto._id">
       <ProductCard
+        :product="producto"
+        :productId="producto._id"
         :title="producto.name"
         :img="producto.image"
         :precioCompra="producto.purchasePrice"
@@ -45,13 +43,13 @@
   </v-row>
 
   <!-- dialogo para agregar producto -->
-  <v-dialog v-model="showNewProdDialog" max-width="400">
+  <v-dialog v-model="showNewProdDialog" max-width="600">
     <v-card>
       <v-card-title class="headline">Agregar Producto</v-card-title>
       <br />
 
       <main>
-        <v-row class="px-5">
+        <v-row class="px-5 mb-4">
           <v-col cols="7" class="text-left py-0">
             <p>Nombre:</p>
           </v-col>
@@ -64,7 +62,7 @@
             />
           </v-col>
         </v-row>
-        <v-row class="px-5">
+        <v-row class="px-5 mb-4">
           <v-col cols="7" class="text-left py-0">
             <p>Tipo:</p>
           </v-col>
@@ -82,7 +80,7 @@
             </select>
           </v-col>
         </v-row>
-        <v-row class="px-5">
+        <v-row class="px-5 mb-4">
           <v-col cols="7" class="text-left py-0">
             <p>Precio compra:</p>
           </v-col>
@@ -95,7 +93,7 @@
             />
           </v-col>
         </v-row>
-        <v-row class="px-5">
+        <v-row class="px-5 mb-4">
           <v-col cols="7" class="text-left py-0">
             <p>Precio venta:</p>
           </v-col>
@@ -108,7 +106,7 @@
             />
           </v-col>
         </v-row>
-        <v-row class="px-5">
+        <v-row class="px-5 mb-4">
           <v-col cols="7" class="text-left py-0">
             <p>Demanda mínima:</p>
           </v-col>
@@ -121,7 +119,7 @@
             />
           </v-col>
         </v-row>
-        <v-row class="px-5">
+        <v-row class="px-5 mb-4">
           <v-col cols="7" class="text-left py-0">
             <p>Demanda máxima:</p>
           </v-col>
@@ -134,7 +132,7 @@
             />
           </v-col>
         </v-row>
-        <v-row class="px-5">
+        <v-row class="px-5 mb-4">
           <v-col cols="7" class="text-left py-0">
             <p>En bodega:</p>
           </v-col>
@@ -164,24 +162,18 @@ import { ref } from "vue";
 import { useShopStore } from "../stores/shop_store.js";
 import { useProductStore } from "../stores/product_store.js";
 import ProductCard from "../components/productCard.vue";
-import basicos from "../assets/basicos.png";
-import bebidas from "../assets/bebidas.png";
-import congelados from "../assets/congelados.png";
-import higiene from "../assets/higiene.png";
 
 const shopStore = useShopStore();
 const productStore = useProductStore();
 const store = shopStore.shop;
 const inventario = ref(null);
 
-
 const getProducts = async () => {
   await productStore.getProducts();
   inventario.value = productStore.products;
 };
 
-getProducts()
-
+getProducts();
 
 const tiposProd = ["basicos", "bebidas", "congelados", "higiene"];
 
@@ -195,8 +187,23 @@ const newDisponibles = ref();
 const benefits = ref("10,000,000");
 const newTipo = ref(); //para las imagenes de los prods
 
-const addProduct = () => {
-  // Lógica para eliminar el producto
+const addProduct = async () => {
+  const newProduct = {
+    storeId: store._id,
+    name: newNombre.value,
+    image: `../src/assets/${newTipo.value}.png`,
+    category: newTipo.value,
+    salePrice: Number(newPrecioVenta.value),
+    purchasePrice: Number(newPrecioCompra.value),
+    selectedForCycle: false,
+    availableUnits: 0,
+    demandMin: Number(newDemandaMin.value),
+    demandMax: Number(newDemandaMax.value),
+  };
+
+  await productStore.addProduct(newProduct);
+  inventario.value.push(productStore.product);
+
   console.log("Producto agregado");
   showNewProdDialog.value = false;
 };
