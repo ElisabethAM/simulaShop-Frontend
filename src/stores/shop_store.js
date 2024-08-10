@@ -2,11 +2,18 @@ import { defineStore } from "pinia";
 import axios from "axios";
 import { ref, watch } from "vue";
 
+const storeShop = localStorage.getItem("selectedShop");
+const shopInitial = storeShop ? JSON.parse(storeShop) : null;
+
 export const useShopStore = defineStore("shop", () => {
   const shops = ref(null);
-  const shop = ref(null);
+  const shop = ref(shopInitial);
   const ultimoBeneficio = ref(null);
   const cicloDatos = ref(null);
+
+  watch(shop, () => {
+    localStorage.setItem("selectedShop", JSON.stringify(shop.value));
+  });
 
   const getShops = async () => {
     try {
@@ -41,6 +48,8 @@ export const useShopStore = defineStore("shop", () => {
         url: `http://localhost:5000/api/store/${storeId}/benefits`,
         method: "GET",
       });
+
+      shop.value = res.data.store
     } catch (error) {
       console.log(error);
     }

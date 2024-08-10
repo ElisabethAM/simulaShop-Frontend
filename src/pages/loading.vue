@@ -4,7 +4,12 @@
     <v-row class="encima">
       <v-row>
         <v-col cols="12">
-          <v-progress-circular color="white" indeterminate :size="160" :width="20"></v-progress-circular>
+          <v-progress-circular
+            color="white"
+            indeterminate
+            :size="160"
+            :width="20"
+          ></v-progress-circular>
         </v-col>
       </v-row>
     </v-row>
@@ -17,11 +22,11 @@
       </v-row>
       <v-row class="contenido">
         <v-col cols="2" class="imagen">
-          <v-img 
-            :src="comentarios[currentComentario].img" 
+          <v-img
+            :src="comentarios[currentComentario].img"
             alt="Personaje"
             cover
-           >
+          >
           </v-img>
         </v-col>
         <v-col cols="10" class="dialogo">
@@ -38,7 +43,7 @@
 </template>
 
 <script setup>
-import { ref,onMounted,onBeforeUnmount } from "vue";
+import { ref, onMounted, onBeforeUnmount } from "vue";
 import { useRouter } from "vue-router";
 import { useShopStore } from "../stores/shop_store.js";
 
@@ -49,56 +54,57 @@ const currentComentario = ref(0);
 const intervalId = ref(null);
 const comentarios = [
   {
-    nombre: 'Visitante 1',
-    dialogo: 'Muy buena tienda, excelentes precios',
-    img: new URL('../assets/personajes/1.png', import.meta.url).href,
+    nombre: "Visitante 1",
+    dialogo: "Muy buena tienda, excelentes precios",
+    img: new URL("../assets/personajes/1.png", import.meta.url).href,
   },
   {
-    nombre: 'Visitante 2',
-    dialogo: 'Muy limpios los pasillos, se ve que el local vale la pena',
-    img: new URL('../assets/personajes/2.png', import.meta.url).href,
+    nombre: "Visitante 2",
+    dialogo: "Muy limpios los pasillos, se ve que el local vale la pena",
+    img: new URL("../assets/personajes/2.png", import.meta.url).href,
   },
   {
-    nombre: 'Visitante 3',
-    dialogo: 'Gran variedad de productos, voy a volver seguido',
-    img: new URL('../assets/personajes/4.png', import.meta.url).href,
+    nombre: "Visitante 3",
+    dialogo: "Gran variedad de productos, voy a volver seguido",
+    img: new URL("../assets/personajes/4.png", import.meta.url).href,
   },
   {
-    nombre: 'Empleado 1',
-    dialogo: 'Limpieza en el pasillo 4, se cayo la refri :(',
-    img: new URL('../assets/personajes/3.png', import.meta.url).href,
+    nombre: "Empleado 1",
+    dialogo: "Limpieza en el pasillo 4, se cayo la refri :(",
+    img: new URL("../assets/personajes/3.png", import.meta.url).href,
   },
   {
-    nombre: 'Visitante 4',
-    dialogo: 'El personal es muy agradable, 5 estrellas',
-    img: new URL('../assets/personajes/5.png', import.meta.url).href,
+    nombre: "Visitante 4",
+    dialogo: "El personal es muy agradable, 5 estrellas",
+    img: new URL("../assets/personajes/5.png", import.meta.url).href,
   },
   {
-    nombre: 'Visitante 5',
-    dialogo: 'Este lugar es muy amplio, tienen muchos productos que ofrecer',
-    img: new URL('../assets/personajes/6.png', import.meta.url).href,
+    nombre: "Visitante 5",
+    dialogo: "Este lugar es muy amplio, tienen muchos productos que ofrecer",
+    img: new URL("../assets/personajes/6.png", import.meta.url).href,
   },
   {
-    nombre: 'Visitante 6',
-    dialogo: 'Yo solo vine a usar el baño, con permiso.',
-    img: new URL('../assets/personajes/10.png', import.meta.url).href,
+    nombre: "Visitante 6",
+    dialogo: "Yo solo vine a usar el baño, con permiso.",
+    img: new URL("../assets/personajes/10.png", import.meta.url).href,
   },
   {
-    nombre: 'Visitante 7',
-    dialogo: 'Es el único local en donde pude encontrar lo que necesito, excelente',
-    img: new URL('../assets/personajes/8.png', import.meta.url).href,
+    nombre: "Visitante 7",
+    dialogo:
+      "Es el único local en donde pude encontrar lo que necesito, excelente",
+    img: new URL("../assets/personajes/8.png", import.meta.url).href,
   },
   {
-    nombre: 'Empleado 1',
-    dialogo: 'Limpieza en el pasillo 6, se cayó un ventilador...',
-    img: new URL('../assets/personajes/7.png', import.meta.url).href,
+    nombre: "Empleado 1",
+    dialogo: "Limpieza en el pasillo 6, se cayó un ventilador...",
+    img: new URL("../assets/personajes/7.png", import.meta.url).href,
   },
   {
-    nombre: 'Visitante 8',
-    dialogo: 'Excelente, ¡pude encontrar todo lo que buscaba!',
-    img: new URL('../assets/personajes/9.png', import.meta.url).href,
+    nombre: "Visitante 8",
+    dialogo: "Excelente, ¡pude encontrar todo lo que buscaba!",
+    img: new URL("../assets/personajes/9.png", import.meta.url).href,
   },
-]
+];
 
 onMounted(() => {
   obtenerBeneficios();
@@ -119,14 +125,15 @@ const cambiarComentario = () => {
 
 const obtenerBeneficios = async () => {
   await shopStore.getBenefits(store._id);
-  store.value = shopStore.shop;
-  router.push({ name: "Resultados" });
+  setTimeout(() => {
+    router.push({ name: "Resultados" });
+  }, 6000);
 };
 </script>
 
 <style scoped>
 .monologo {
-  background: #E9D89D;
+  background: #e9d89d;
   padding: inherit;
   min-width: 100%;
   text-align: left;
@@ -193,11 +200,10 @@ const obtenerBeneficios = async () => {
   min-height: max-content;
   display: flex;
   align-content: center;
-  ;
 }
 
 .footer {
-  font-family: 'Inika', serif;
+  font-family: "Inika", serif;
   position: fixed;
   bottom: 0;
   left: 0;
