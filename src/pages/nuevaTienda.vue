@@ -31,7 +31,7 @@
           <v-select
             v-model="cicleType"
             label="Seleccione"
-            :items="['Dias', 'Semanas', 'Meses', 'Años']"
+            :items="['Dia', 'Semana', 'Mes', 'Año']"
             :rules="[(v) => !!v || 'Este campo no puede estar vacío']"
             required
           >

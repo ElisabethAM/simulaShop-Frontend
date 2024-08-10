@@ -48,9 +48,6 @@ const enviarStore = (store) => {
   shopStore.shop = store;
 };
 
-const name = ref("Bienvendido");
-const tittle = ref("");
-const lastBenefits = ref("10,000,000 Lps");
 </script>
 
 <style scoped>

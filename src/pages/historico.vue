@@ -10,11 +10,11 @@
             <br>
             <!-- tabla de ciclos anteriores -->
 
-            <v-data-table :items="cicles" :headers="headers" class="elevation-6" :items-per-page="5">
+            <v-data-table :items="dataset" :headers="headers" class="elevation-6" :items-per-page="5">
                 <!-- render del boton visualizar -->
                 <template v-slot:item.visualizar="{ item }">
                     <div class="text-center">
-                        <router-link :to="`/resultados/${item.cicleId}`">
+                        <router-link :to="`/resultados/${item.cycleNumber}`">
                             <img src="../assets/play.png" alt="icono" class="play">
                         </router-link>
                     </div>
@@ -29,8 +29,7 @@
             <hr>
             <br>
             <!-- tabla de proyecciones -->
-            <v-data-table :items="proyections" :headers="headersProyecciones" class="elevation-6" :items-per-page="5">
-                <!-- render del boton visualizar -->
+            <!-- <v-data-table :items="proyections" :headers="headersProyecciones" class="elevation-6" :items-per-page="5">
                 <template v-slot:item.visualizar="{ item }">
                     <div class="text-center">
                         <router-link :to="`/resultados/${item.cicleId}`">
@@ -38,115 +37,68 @@
                         </router-link>
                     </div>
                 </template>
-            </v-data-table>
+            </v-data-table> -->
 
         </v-col>
     </v-row>
 
-    <div class="footer my-8 justify-end">
-        <v-btn @click="newProyection = true" class="d-flex no-focus pa-6 justify-center" color="#B98D4C">
-            <h3>Nueva proyección</h3>
-            <img src="../assets/nuevo.png" alt="icono" class="play ml-3">
-        </v-btn>
-    </div>
-
-    <!-- modal de datos de nueva proyección -->
-    <v-dialog v-model="newProyection" max-width="300">
-        <v-card>
-            <v-card-title class="headline">Crear Proyección</v-card-title>
-            <br>
-
-            <main>
-                <v-row class="px-5">
-                    <v-col cols="4" class="text-left py-0">
-                        <p>Nombre:</p>
-                    </v-col>
-                    <v-col cols="8" class="py-0">
-                        <input v-model="newNombre" type="text" class="columnas" placeholder="Proyección 1">
-                    </v-col>
-                </v-row>
-                <v-row class="px-5">
-                    <v-col cols="4" class="text-left py-0">
-                        <p>Alcance:</p>
-                    </v-col>
-                    <v-col cols="8" class="py-0">
-                        <select v-model="newAlcance" class="columnas" placeholder="seleccione">
-                            <option v-for="x in alcance" :key="x" :value="x">
-                                {{ x }}
-                            </option>
-                        </select>
-                    </v-col>
-                </v-row>
-            </main>
-            <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-col cols="4">
-                    <v-btn color="red darken-1" text @click="newProyection = false">Cancelar</v-btn>
-                </v-col>
-                <v-col cols="4">
-
-                </v-col>
-                <v-col cols="4">
-                    <v-btn color="green darken-1" text @click="startProyection">Proyectar</v-btn>
-                </v-col>
-            </v-card-actions>
-        </v-card>
-    </v-dialog>
 </template>
 
 <script setup>
 import { ref } from 'vue';
-const alcance = ['mensual', 'trimestral', 'anual', 'Semestral']
+import { useShopStore } from "../stores/shop_store.js";
 
-const newProyection = ref(false)
-const newAlcance = ref()
-const newNombre = ref()
-const cicleId = ref(2)//por mientras
-const proyectionId = ref(2)//por mientras
+const shopStore = useShopStore();
+let cicles = [];
+let dataset = [];
+// const proyections = ref(null);
 
-const cicles = [
-    { cicleId: 1, Registro: 'Frozen Yogurt', Ganancias: 159 },
-    { cicleId: 2, Registro: 'Ice cream sandwich', Ganancias: 237 },
-    { cicleId: 3, Registro: 'Eclair', Ganancias: 262 },
-    { cicleId: 4, Registro: 'Cupcake', Ganancias: 305 },
-    { cicleId: 5, Registro: 'Gingerbread', Ganancias: 356 },
-    { cicleId: 6, Registro: 'Jelly bean', Ganancias: 375 },
-    { cicleId: 7, Registro: 'Lollipop', Ganancias: 392 },
-    { cicleId: 8, Registro: 'Honeycomb', Ganancias: 408 },
-    { cicleId: 9, Registro: 'Donut', Ganancias: 452 },
-    { cicleId: 10, Registro: 'KitKat', Ganancias: 518 },
-];
+//  const cicles = [
+//      {
+//          cycleNumber:1,
+//          lastBenefits:1695,
+//          totalEarnings:1695,
+//          _id:"66b6f484b8e8a701dc4fbe2d"
+//      }
+//  ];
 
-const proyections = [
-    { cicleId: 1, Registro: 'Frozen Yogurt', Alcance: 'anual' },
-    { cicleId: 2, Registro: 'Ice cream sandwich', Alcance: 'anual' },
-    { cicleId: 3, Registro: 'Eclair', Alcance: 'anual' },
-    { cicleId: 4, Registro: 'Cupcake', Alcance: 'anual' },
-    { cicleId: 5, Registro: 'Gingerbread', Alcance: 'trimestral' },
-    { cicleId: 6, Registro: 'Jelly bean', Alcance: 'anual' },
-    { cicleId: 7, Registro: 'Lollipop', Alcance: 'anual' },
-    { cicleId: 8, Registro: 'Honeycomb', Alcance: 'semestral' },
-    { cicleId: 9, Registro: 'Donut', Alcance: 'anual' },
-    { cicleId: 10, Registro: 'KitKat', Alcance: 'anual' },
-];
+// const proyections = [
+//     { cicleId: 1, Registro: 'Frozen Yogurt', Alcance: 'anual' },
+//     { cicleId: 2, Registro: 'Ice cream sandwich', Alcance: 'anual' },
+//     { cicleId: 3, Registro: 'Eclair', Alcance: 'anual' },
+//     { cicleId: 4, Registro: 'Cupcake', Alcance: 'anual' },
+//     { cicleId: 5, Registro: 'Gingerbread', Alcance: 'trimestral' },
+//     { cicleId: 6, Registro: 'Jelly bean', Alcance: 'anual' },
+//     { cicleId: 7, Registro: 'Lollipop', Alcance: 'anual' },
+//     { cicleId: 8, Registro: 'Honeycomb', Alcance: 'semestral' },
+//     { cicleId: 9, Registro: 'Donut', Alcance: 'anual' },
+//     { cicleId: 10, Registro: 'KitKat', Alcance: 'anual' },
+// ];
 
 const headers = [
-    { title: 'Registro', key: 'Registro', },
-    { title: 'Ganancias', key: 'Ganancias' },
+    { title: 'Registro', key: 'cycleNumber', },
+    { title: 'Ganancias', key: 'totalEarnings' },
     { title: 'Visualizar', key: 'visualizar', sortable: false },
 ];
 
-const headersProyecciones = [
-    { title: 'Registro', key: 'Registro', },
-    { title: 'Alcance', key: 'Alcance' },
-    { title: 'Visualizar', key: 'visualizar', sortable: false },
-];
+// const headersProyecciones = [
+//     { title: 'Registro', key: 'Registro', },
+//     { title: 'Alcance', key: 'Alcance' },
+//     { title: 'Visualizar', key: 'visualizar', sortable: false },
+// ];
 
-const startProyection = () => {
-    // Lógica para eliminar el producto
-    console.log('Proyección empezada');
-    newProyection.value = false;
-};
+// const getCicles = async () => {
+     shopStore.getShop();
+    cicles = Object.values(shopStore.cicloDatos);
+     dataset= cicles.map((cicle)=>{
+        cicle.cycleNumber
+        // cicle.totalEarnings
+    })
+    console.log(dataset)
+    // console.log(cicles.value)
+    // console.log(typeof(cicles.value))
+// };
+// getCicles();
 
 </script>
 
