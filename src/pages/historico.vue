@@ -8,32 +8,18 @@
             <hr>
             <br>
             <br>
-            <v-table height="300px" fixed-header class="elevation-6">
-                <thead>
-                    <tr>
-                        <th class="text-left encabezado">
-                            Nombre
-                        </th>
-                        <th class="text-center encabezado">
-                            Tipo de ciclo
-                        </th>
-                        <th class="text-center encabezado">
-                            Visualizar
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="item in cicles" :key="item.name" class="text-left">
-                        <td>{{ item.name }}</td>
-                        <td class="text-center">{{ item.calories }}</td>
-                        <td class="text-center">
-                            <router-link :to="`/resultados/${cicleId}`">
-                                <img src="../assets/play.png" alt="icono" class="play">
-                            </router-link>
-                        </td>
-                    </tr>
-                </tbody>
-            </v-table>
+            <!-- tabla de ciclos anteriores -->
+
+            <v-data-table :items="cicles" :headers="headers" class="elevation-6" :items-per-page="5">
+                <!-- render del boton visualizar -->
+                <template v-slot:item.visualizar="{ item }">
+                    <div class="text-center">
+                        <router-link :to="`/resultados/${item.cicleId}`">
+                            <img src="../assets/play.png" alt="icono" class="play">
+                        </router-link>
+                    </div>
+                </template>
+            </v-data-table>
         </v-col>
 
         <v-col cols="12">
@@ -42,32 +28,18 @@
             <hr>
             <hr>
             <br>
-            <v-table height="300px" fixed-header class="elevation-6">
-                <thead>
-                    <tr>
-                        <th class="text-left encabezado">
-                            Nombre
-                        </th>
-                        <th class="text-center encabezado">
-                            Alcance
-                        </th>
-                        <th class="text-center encabezado">
-                            Visualizar
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="item in proyections" :key="item.name" class="text-left">
-                        <td>{{ item.name }}</td>
-                        <td class="text-center">{{ item.calories }}</td>
-                        <td class="text-center">
-                            <router-link :to="`/resultados/${proyectionId}`">
-                                <img src="../assets/play.png" alt="icono" class="play">
-                            </router-link>
-                        </td>
-                    </tr>
-                </tbody>
-            </v-table>
+            <!-- tabla de proyecciones -->
+            <v-data-table :items="proyections" :headers="headersProyecciones" class="elevation-6" :items-per-page="5">
+                <!-- render del boton visualizar -->
+                <template v-slot:item.visualizar="{ item }">
+                    <div class="text-center">
+                        <router-link :to="`/resultados/${item.cicleId}`">
+                            <img src="../assets/play.png" alt="icono" class="play">
+                        </router-link>
+                    </div>
+                </template>
+            </v-data-table>
+
         </v-col>
     </v-row>
 
@@ -129,93 +101,46 @@ const alcance = ['mensual', 'trimestral', 'anual', 'Semestral']
 const newProyection = ref(false)
 const newAlcance = ref()
 const newNombre = ref()
-const cicleId= ref(2)//por mientras
-const proyectionId= ref(2)//por mientras
-const proyections = [
-    {
-        name: 'Frozen Yogurt',
-        calories: 159,
-    },
-    {
-        name: 'Ice cream sandwich',
-        calories: 237,
-    },
-    {
-        name: 'Eclair',
-        calories: 262,
-    },
-    {
-        name: 'Cupcake',
-        calories: 305,
-    },
-    {
-        name: 'Gingerbread',
-        calories: 356,
-    },
-    {
-        name: 'Jelly bean',
-        calories: 375,
-    },
-    {
-        name: 'Lollipop',
-        calories: 392,
-    },
-    {
-        name: 'Honeycomb',
-        calories: 408,
-    },
-    {
-        name: 'Donut',
-        calories: 452,
-    },
-    {
-        name: 'KitKat',
-        calories: 518,
-    },
-]
+const cicleId = ref(2)//por mientras
+const proyectionId = ref(2)//por mientras
 
 const cicles = [
-    {
-        name: 'Frozen Yogurt',
-        calories: 159,
-    },
-    {
-        name: 'Ice cream sandwich',
-        calories: 237,
-    },
-    {
-        name: 'Eclair',
-        calories: 262,
-    },
-    {
-        name: 'Cupcake',
-        calories: 305,
-    },
-    {
-        name: 'Gingerbread',
-        calories: 356,
-    },
-    {
-        name: 'Jelly bean',
-        calories: 375,
-    },
-    {
-        name: 'Lollipop',
-        calories: 392,
-    },
-    {
-        name: 'Honeycomb',
-        calories: 408,
-    },
-    {
-        name: 'Donut',
-        calories: 452,
-    },
-    {
-        name: 'KitKat',
-        calories: 518,
-    },
-]
+    { cicleId: 1, Registro: 'Frozen Yogurt', Ganancias: 159 },
+    { cicleId: 2, Registro: 'Ice cream sandwich', Ganancias: 237 },
+    { cicleId: 3, Registro: 'Eclair', Ganancias: 262 },
+    { cicleId: 4, Registro: 'Cupcake', Ganancias: 305 },
+    { cicleId: 5, Registro: 'Gingerbread', Ganancias: 356 },
+    { cicleId: 6, Registro: 'Jelly bean', Ganancias: 375 },
+    { cicleId: 7, Registro: 'Lollipop', Ganancias: 392 },
+    { cicleId: 8, Registro: 'Honeycomb', Ganancias: 408 },
+    { cicleId: 9, Registro: 'Donut', Ganancias: 452 },
+    { cicleId: 10, Registro: 'KitKat', Ganancias: 518 },
+];
+
+const proyections = [
+    { cicleId: 1, Registro: 'Frozen Yogurt', Alcance: 'anual' },
+    { cicleId: 2, Registro: 'Ice cream sandwich', Alcance: 'anual' },
+    { cicleId: 3, Registro: 'Eclair', Alcance: 'anual' },
+    { cicleId: 4, Registro: 'Cupcake', Alcance: 'anual' },
+    { cicleId: 5, Registro: 'Gingerbread', Alcance: 'trimestral' },
+    { cicleId: 6, Registro: 'Jelly bean', Alcance: 'anual' },
+    { cicleId: 7, Registro: 'Lollipop', Alcance: 'anual' },
+    { cicleId: 8, Registro: 'Honeycomb', Alcance: 'semestral' },
+    { cicleId: 9, Registro: 'Donut', Alcance: 'anual' },
+    { cicleId: 10, Registro: 'KitKat', Alcance: 'anual' },
+];
+
+const headers = [
+    { title: 'Registro', key: 'Registro', },
+    { title: 'Ganancias', key: 'Ganancias' },
+    { title: 'Visualizar', key: 'visualizar', sortable: false },
+];
+
+const headersProyecciones = [
+    { title: 'Registro', key: 'Registro', },
+    { title: 'Alcance', key: 'Alcance' },
+    { title: 'Visualizar', key: 'visualizar', sortable: false },
+];
 
 const startProyection = () => {
     // Lógica para eliminar el producto
@@ -230,8 +155,10 @@ const startProyection = () => {
     height: 25px;
 }
 
+/* el componente no deja editar los estilos de encabezado :B */
 .encabezado {
     background: #E9D89D !important;
+    color: black;
 }
 
 .columnas {
