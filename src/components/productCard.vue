@@ -199,8 +199,10 @@
 <script setup>
 import { ref, watch, defineProps } from "vue";
 import { useProductStore } from "../stores/product_store.js";
+import { useShopStore } from "../stores/shop_store.js";
 
 const productStore = useProductStore();
+const shopStore = useShopStore();
 
 const showDeleteDialog = ref(false);
 const showShopDialog = ref(false);
@@ -254,7 +256,6 @@ const updateSelected = async () => {
   }
 
   await productStore.updateProduct(props.product);
-
   editing.value = false;
 };
 

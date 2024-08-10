@@ -27,6 +27,6 @@ const vuetify = createVuetify({
 const app = createApp(App);
 app.config.globalProperties.$api = api;
 app.use(vuetify);
-app.use(pinia);
 app.use(router);
+app.use(pinia);
 app.mount("#app");

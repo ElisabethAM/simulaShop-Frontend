@@ -203,8 +203,6 @@ const addProduct = async () => {
 
   await productStore.addProduct(newProduct);
   inventario.value.push(productStore.product);
-
-  console.log("Producto agregado");
   showNewProdDialog.value = false;
 };
 </script>

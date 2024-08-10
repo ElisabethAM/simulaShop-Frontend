@@ -58,20 +58,22 @@
                 </thead>
                 <tbody>
                   <tr
-                    v-for="product in shopActual.inventory.filter(
-                      (p) => p.selectedForCycle
+                    v-for="product in shopActual.inventory.filter((p) =>
+                      p.historicalData.some(
+                        (h) => h.cycleNumber === cycleCurrent
+                      )
                     )"
                     :key="product._id"
                     class="text-left"
                   >
-                    <td>
+                    <td class="">{{ product.name }}</td>
+                    <td class="text-center">
                       {{
                         product.historicalData.find(
                           (h) => h.cycleNumber === cycleCurrent
                         )?.saleUnits || "N/A"
                       }}
                     </td>
-                    <td class="text-center">{{ product.name }}</td>
                     <td class="text-center">
                       {{
                         (product.historicalData.find(
@@ -81,6 +83,12 @@
                           (h) => h.cycleNumber === cycleCurrent
                         )?.saleUnits || 0)
                       }}
+                    </td>
+                  </tr>
+                  <tr class="encabezado">
+                    <td colspan="1" class="text-center">Total Ingresos:</td>
+                    <td colspan="3" class="text-right">
+                      {{ ultimoBeneficio }}
                     </td>
                   </tr>
                 </tbody>

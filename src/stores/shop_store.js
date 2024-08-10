@@ -15,6 +15,20 @@ export const useShopStore = defineStore("shop", () => {
     localStorage.setItem("selectedShop", JSON.stringify(shop.value));
   });
 
+  const createShop = async (storeName, quantity, cicleType, intialBenefits) => {
+    try {
+      const res = await axios.post(`http://localhost:5000/api/store`, {
+        name: storeName,
+        cycleType: cicleType,
+        numberOfCycles: quantity,
+        money: intialBenefits,
+      });
+      shop.value = res.data.store;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const getShops = async () => {
     try {
       const res = await axios({
@@ -33,7 +47,7 @@ export const useShopStore = defineStore("shop", () => {
         url: "http://localhost:5000/api/store/" + shop.value._id,
         method: "GET",
       });
-      shops.value = res.data.store;
+      shop.value = res.data.store;
       ultimoBeneficio.value =
         shop.value.cycleData[shop.value.cycleData.length - 1];
       cicloDatos.value = shop.value.cycleData;
@@ -49,7 +63,7 @@ export const useShopStore = defineStore("shop", () => {
         method: "GET",
       });
 
-      shop.value = res.data.store
+      shop.value = res.data.store;
     } catch (error) {
       console.log(error);
     }
@@ -59,8 +73,9 @@ export const useShopStore = defineStore("shop", () => {
     shops,
     ultimoBeneficio,
     cicloDatos,
-    getShops,
     shop,
+    createShop,
+    getShops,
     getShop,
     getBenefits,
   };

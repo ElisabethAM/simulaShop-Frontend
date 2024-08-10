@@ -74,6 +74,7 @@ import GestionarStore from "../pages/gestionarStore.vue";
 import Inventario from "../pages/inventario.vue";
 import Historico from "../pages/historico.vue";
 import Resultados from "../pages/resultados.vue";
+import { useShopStore } from "../stores/shop_store";
 
 export default {
   components: {
@@ -93,6 +94,7 @@ export default {
     const showbtn = ref(true);
 
     watchEffect(() => {
+      const shopStore = useShopStore();
       switch (route.path) {
         case "/bienvenido":
           tittle.value = "Bienvenido";
@@ -106,24 +108,25 @@ export default {
           break;
         default:
           if (route.name === "Gestionar Tienda") {
-            tittle.value = id.value;
+            tittle.value = shopStore.shop.name;
             previusRoute.value = "/bienvenido";
             showbtn.value = true;
           } else if (route.name === "Configurar Productos") {
             tittle.value = "Inventario";
-            previusRoute.value = `/gestionarTienda/${id.value}`;
+            previusRoute.value = `/gestionarTienda/${shopStore.shop.name}`;
+            shopStore.getShop();
             showbtn.value = true;
           } else if (route.name === "Gestion de beneficios") {
             tittle.value = "Cargar comentarios...";
-            previusRoute.value = `/gestionarTienda/${id.value}`;
+            previusRoute.value = `/gestionarTienda/${shopStore.shop.name}`;
             showbtn.value = true;
           } else if (route.name === "Historico") {
             tittle.value = "Histórico";
-            previusRoute.value = `/gestionarTienda/${id.value}`;
+            previusRoute.value = `/gestionarTienda/${shopStore.shop.name}`;
             showbtn.value = true;
           } else if (route.name === "Resultados Historico") {
             tittle.value = "Resultados";
-            previusRoute.value = `/historico/${id.value}`;
+            previusRoute.value = `/historico/${shopStore.shop.name}`;
             showbtn.value = true;
           } else if (route.name === "Resultados") {
             tittle.value = "Resultados";
