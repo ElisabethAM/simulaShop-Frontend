@@ -26,6 +26,7 @@
     </v-col>
     <v-col cols="4" class="cards">
       <CardMenu
+        :shop="gestionShop"
         :tittle="'Registros anteriores'"
         :img="historicoImg"
         :description="'Aquí puede visualizar el histórico de las gestiones y proyecciones anteriores'"
@@ -44,8 +45,11 @@ import productosImg from "../assets/productos.png";
 import gestionarImg from "../assets/gestionar.png";
 import historicoImg from "../assets/historico.png";
 
+
 const shopStore = useShopStore();
+shopStore.getShop();
 const gestionShop = shopStore.shop;
+
 
 const idStore = ref(0);
 idStore.value = Number(gestionShop._id); //por mientras

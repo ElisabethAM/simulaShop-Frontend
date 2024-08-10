@@ -8,29 +8,28 @@ export const useProductStore = defineStore("product", () => {
   const products = ref(null);
   const product = ref(null);
 
-  const addProduct = async(producto)=>{
+  const addProduct = async (producto) => {
     try {
-        console.log(producto);
-        const res = await axios({
-          url: `http://localhost:5000/api/stores/${producto.storeId}/products`,
-          method: "POST",
-          data: {
-            name: producto.name,
-            image: producto.image,
-            category: producto.category,
-            salePrice: producto.salePrice,
-            purchasePrice: producto.purchasePrice,
-            selectedForCycle: producto.selectedForCycle,
-            availableUnits: producto.availableUnits,
-            demandMin: producto.demandMin,
-            demandMax: producto.demandMax,
-          },
-        });
-        product.value = res.data.product;
-      } catch (error) {
-        console.log(error);
-      }
-  }
+      const res = await axios({
+        url: `http://localhost:5000/api/stores/${producto.storeId}/products`,
+        method: "POST",
+        data: {
+          name: producto.name,
+          image: producto.image,
+          category: producto.category,
+          salePrice: producto.salePrice,
+          purchasePrice: producto.purchasePrice,
+          selectedForCycle: producto.selectedForCycle,
+          availableUnits: producto.availableUnits,
+          demandMin: producto.demandMin,
+          demandMax: producto.demandMax,
+        },
+      });
+      product.value = res.data.product;
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const getProducts = async () => {
     try {
@@ -46,7 +45,6 @@ export const useProductStore = defineStore("product", () => {
 
   const updateProduct = async (producto) => {
     try {
-      console.log(producto);
       const res = await axios({
         url: `http://localhost:5000/api/stores/${shopStore.shop._id}/products/${producto._id}`,
         method: "PUT",
@@ -71,7 +69,6 @@ export const useProductStore = defineStore("product", () => {
 
   const addUnitsProduct = async (producto, quantity) => {
     try {
-      console.log(quantity);
       const res = await axios({
         url: `http://localhost:5000/api/stores/${shopStore.shop._id}/products/${producto._id}/add-units`,
         method: "PUT",
