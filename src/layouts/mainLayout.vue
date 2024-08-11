@@ -56,6 +56,9 @@
                 <div v-if="route.name === 'Resultados'">
                   <Resultados></Resultados>
                 </div>
+                <div v-if="route.path === '/guia'">
+                  <Guia></Guia>
+                </div>
               </v-col>
             </v-row>
           </main>
@@ -74,6 +77,7 @@ import GestionarStore from "../pages/gestionarStore.vue";
 import Inventario from "../pages/inventario.vue";
 import Historico from "../pages/historico.vue";
 import Resultados from "../pages/resultados.vue";
+import Guia from "../pages/guia.vue";
 import { useShopStore } from "../stores/shop_store";
 
 export default {
@@ -84,6 +88,7 @@ export default {
     Inventario,
     Historico,
     Resultados,
+    Guia,
   },
   name: "MainLayout",
   setup() {
@@ -130,6 +135,11 @@ export default {
             showbtn.value = true;
           } else if (route.name === "Resultados") {
             tittle.value = "Resultados";
+            showbtn.value = true;
+            previusRoute.value = `/gestionarTienda/${shopStore.shop.name}`;
+          }else if (route.name === "Guía rápida") {
+            tittle.value = "Guía rápida";
+            previusRoute.value = `/`;
             showbtn.value = true;
           } else {
             tittle.value = "Título por Defecto";

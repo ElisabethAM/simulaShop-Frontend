@@ -26,10 +26,12 @@
                 <img src="../assets/play.png" alt="icono" class="ml-3">
               </v-btn>
               </router-link>
-              <v-btn class="no-focus" color="#B98D4C">
+              <router-link to="guia">
+                <v-btn class="no-focus" color="#B98D4C">
                 Guía rápida
                 <img src="../assets/play.png" alt="icono" class="ml-3">
               </v-btn>
+              </router-link>
             </footer>
             <div class="d-flex justify-center align-center mb-3">
               <v-row class="ma-3 info pa-3">

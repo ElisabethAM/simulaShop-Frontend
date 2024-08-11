@@ -14,6 +14,11 @@ const routes = [
     component: MainLayout,
   },
   {
+    path: '/guia',
+    name: 'Guía rápida',
+    component: MainLayout,
+  },
+  {
     path: '/nuevaTienda',
     name: 'Nueva Tienda',
     component: MainLayout,
