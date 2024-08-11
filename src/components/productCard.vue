@@ -7,14 +7,18 @@
             <h4 class="header-title text-left">{{ title }}</h4>
           </v-col>
           <v-col cols="3">
-            <div class="custom-checkbox">
+            <div v-if="localProduct.disponibles > 0" class="custom-checkbox">
               <input
                 v-model="localProduct.seleccionado"
                 @click="updateSelected()"
                 type="checkbox"
-                id="checkbox"
               />
             </div>
+            <v-icon v-else icon="mdi-basket-off" size="x-large" color="red">
+              <v-tooltip activator="parent" location="icon"
+                >Sin existencias</v-tooltip
+              >
+            </v-icon>
           </v-col>
         </v-row>
       </header>
@@ -154,7 +158,9 @@
         <v-btn color="green darken-1" text @click="showDeleteDialog = false"
           >Cancelar</v-btn
         >
-        <v-btn color="red darken-1" text @click="deleteProduct">Eliminar</v-btn>
+        <v-btn color="red darken-1" text @click="deleteProducto"
+          >Eliminar</v-btn
+        >
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -199,10 +205,8 @@
 <script setup>
 import { ref, watch, defineProps } from "vue";
 import { useProductStore } from "../stores/product_store.js";
-import { useShopStore } from "../stores/shop_store.js";
 
 const productStore = useProductStore();
-const shopStore = useShopStore();
 
 const showDeleteDialog = ref(false);
 const showShopDialog = ref(false);
@@ -234,9 +238,10 @@ const localProduct = ref({
   seleccionado: props.seleccionado,
 });
 
-const deleteProduct = () => {
+const deleteProducto = async () => {
   // Lógica para eliminar el producto
-  console.log("Producto eliminado");
+  await productStore.deleteProduct(props.product);
+
   showDeleteDialog.value = false;
 };
 
@@ -249,13 +254,28 @@ const sumQuantity = async () => {
 };
 
 const updateSelected = async () => {
-  if (props.product.selectedForCycle) {
-    props.product.selectedForCycle = false;
+  if (localProduct.value.seleccionado) {
+    localProduct.value.seleccionado = false;
   } else {
-    props.product.selectedForCycle = true;
+    localProduct.value.seleccionado = true;
   }
 
-  await productStore.updateProduct(props.product);
+  let prodUpdate = {
+    _id: props.product._id,
+    name: props.product.name,
+    image: props.product.image,
+    category: props.product.category,
+    salePrice: localProduct.value.precioVenta,
+    purchasePrice: localProduct.value.precioCompra,
+    selectedForCycle: localProduct.value.seleccionado,
+    availableUnits: localProduct.value.disponibles,
+    demandMin: localProduct.value.demandaMin,
+    demandMax: localProduct.value.demandaMax,
+    isDeleted: props.product.isDeleted,
+  };
+  await productStore.updateProduct(prodUpdate);
+  localProduct.value.disponibles = productStore.product.availableUnits;
+  console.log(localProduct.value.disponibles);
   editing.value = false;
 };
 
@@ -307,8 +327,8 @@ watch(
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   border: 2px solid #ccc;
   border-radius: 4px;
   outline: none;
@@ -408,6 +428,7 @@ p {
   display: flex;
   align-items: center;
   background-color: #393534;
+  height: 70px;
 }
 
 .header-logo {

@@ -119,7 +119,6 @@ export default {
           } else if (route.name === "Configurar Productos") {
             tittle.value = "Inventario";
             previusRoute.value = `/gestionarTienda/${shopStore.shop.name}`;
-            shopStore.getShop();
             showbtn.value = true;
           } else if (route.name === "Gestion de beneficios") {
             tittle.value = "Cargar comentarios...";

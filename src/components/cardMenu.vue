@@ -66,7 +66,6 @@ import { useShopStore } from "../stores/shop_store.js";
 const shopStore = useShopStore();
 const gestionShop = ref(null);
 
-
 const props = defineProps({
   tittle: {
     type: String,

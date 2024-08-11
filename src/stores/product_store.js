@@ -62,6 +62,8 @@ export const useProductStore = defineStore("product", () => {
         },
       });
       product.value = res.data.product;
+      shopStore.shop = res.data.store;
+      console.log(shopStore.shop);
     } catch (error) {
       console.log(error);
     }
@@ -83,12 +85,25 @@ export const useProductStore = defineStore("product", () => {
     }
   };
 
+  const deleteProduct = async (producto) => {
+    try {
+      await axios.patch(
+        `http://localhost:5000/api/stores/${shopStore.shop._id}/products/${producto._id}`
+      );
+      products.value = products.value.filter((p) => p._id !== producto._id);
+      product.value = producto;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return {
     products,
+    product,
     getProducts,
     updateProduct,
     addUnitsProduct,
     addProduct,
-    product,
+    deleteProduct,
   };
 });

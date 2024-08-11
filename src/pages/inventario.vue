@@ -26,7 +26,7 @@
     </v-col>
 
     <!-- Productos existentes -->
-    <v-col cols="4" v-for="producto in inventario" :key="producto._id">
+    <v-col cols="4" v-for="(producto, index) in productStore.products" :key="index">
       <ProductCard
         :product="producto"
         :productId="producto._id"
