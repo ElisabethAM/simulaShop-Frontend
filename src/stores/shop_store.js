@@ -56,6 +56,18 @@ export const useShopStore = defineStore("shop", () => {
     }
   };
 
+  const getDataShop = async () => {
+    try {
+      const res = await axios({
+        url: "http://localhost:5000/api/store/" + shop.value._id + "/cycleData",
+        method: "GET",
+      });
+      cicloDatos.value = res.data.cycleData;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const getBenefits = async (storeId) => {
     try {
       const res = await axios({
@@ -78,5 +90,6 @@ export const useShopStore = defineStore("shop", () => {
     getShops,
     getShop,
     getBenefits,
+    getDataShop,
   };
 });
