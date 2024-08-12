@@ -19,7 +19,7 @@
               <br />
             </v-col>
             <v-col cols="6">
-              <h3>{{ shopStore.shop.money - ultimoBeneficio }} Lps</h3>
+              <h3>{{ moneyInCycle}} Lps</h3>
               <br />
               <h3>{{ ultimoBeneficio }} Lps</h3>
               <br />
@@ -38,7 +38,9 @@
                     />
                   </v-col>
                   <v-col cols="9">
-                    <h3 class="text-right">{{ shopStore.shop.money }}</h3>
+                    <h3 class="text-right">
+                      {{ moneyInCycle + ultimoBeneficio }}
+                    </h3>
                   </v-col>
                 </div>
               </v-col>
@@ -150,6 +152,7 @@ ChartJS.register(
 const props = defineProps({
   numeroCiclo: Number,
   lastBenefits: Number,
+  moneyInCycle: Number,
 });
 
 const shopStore = useShopStore();
@@ -159,15 +162,32 @@ const ultimoBeneficio = ref(null);
 
 cycleCurrent.value = props.numeroCiclo;
 ultimoBeneficio.value = props.lastBenefits;
-cicloDatos.value = shopStore.cicloDatos
+cicloDatos.value = shopStore.cicloDatos;
 
 // Obtener los 5 ciclos deseados (ciclo actual y 4 anteriores)
 const cycleStartIndex = Math.max(cycleCurrent.value - 5, 0); // Asegura que no haya índices negativos
-const lastFiveCycles = Object.values(cicloDatos.value).slice(cycleStartIndex, cycleCurrent.value);
+const lastFiveCycles = Object.values(cicloDatos.value).slice(
+  cycleStartIndex,
+  cycleCurrent.value
+);
 
-console.log(lastFiveCycles);
 const labels = lastFiveCycles.map((cycle) => cycle.cycleNumber.toString());
 const dataSet = lastFiveCycles.map((cycle) => cycle.lastBenefits);
+
+const lastCyclesindex = Math.max(
+  cycleCurrent.value - cicloDatos.value.length,
+  0
+);
+const lastCycles = Object.values(cicloDatos.value).slice(
+  lastCyclesindex,
+  cycleCurrent.value - 1
+);
+// Calcular el total restando lastBenefits desde el ciclo actual hacia atrás
+let total = 0;
+for (const ciclo of lastCycles) {
+  const cicloNumber = parseInt(ciclo.cycleNumber);
+  total += lastCycles[cicloNumber - 1].lastBenefits;
+}
 
 const nextPage = ref(false);
 const btnvolver = ref(false);

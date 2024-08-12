@@ -9,7 +9,6 @@
       <br />
       <br />
       <!-- tabla de ciclos anteriores -->
-
       <v-data-table
         :items="cicles"
         :headers="headers"
@@ -21,7 +20,7 @@
         <template v-slot:item="{ item }">
           <tr class="bg-white">
             <td>{{ item.cycleNumber }}</td>
-            <td>{{ item.totalEarnings }}</td>
+            <td>{{ item.lastBenefits }}</td>
             <td>
               <div @click="item.dialog = true">
                 <img src="../assets/play.png" alt="icono" class="play" />
@@ -42,6 +41,7 @@
                 <DetalleDialog
                   :numeroCiclo="item.cycleNumber"
                   :lastBenefits="item.lastBenefits"
+                  :moneyInCycle="item.moneyInCycle"
                 ></DetalleDialog>
               </v-dialog>
             </td>
@@ -51,21 +51,12 @@
     </v-col>
 
     <v-col cols="12">
-      <h2>Proyecciones:</h2>
+      <h2>Proyeccion del siguiente ciclo:</h2>
       <br />
       <hr />
       <hr />
       <br />
-      <!-- tabla de proyecciones -->
-      <!-- <v-data-table :items="proyections" :headers="headersProyecciones" class="elevation-6" :items-per-page="5">
-                <template v-slot:item.visualizar="{ item }">
-                    <div class="text-center">
-                        <router-link :to="`/resultados/${item.cicleId}`">
-                            <img src="../assets/play.png" alt="icono" class="play">
-                        </router-link>
-                    </div>
-                </template>
-            </v-data-table> -->
+
     </v-col>
   </v-row>
 </template>
@@ -73,26 +64,16 @@
 <script setup>
 import { ref } from "vue";
 import { useShopStore } from "../stores/shop_store.js";
-import { color } from "chart.js/helpers";
 import DetalleDialog from "../components/detalleDialog.vue";
 
 const shopStore = useShopStore();
 let cicles = [];
-let dataset = [];
-// const proyections = ref(null);
-const dialog = ref(false);
 
 const headers = [
   { title: "Registro", key: "cycleNumber" },
   { title: "Ganancias", key: "totalEarnings" },
   { title: "Detalles", key: "Detalles", sortable: false },
 ];
-
-// const headersProyecciones = [
-//     { title: 'Registro', key: 'Registro', },
-//     { title: 'Alcance', key: 'Alcance' },
-//     { title: 'Visualizar', key: 'visualizar', sortable: false },
-// ];
 
 const getCicles = async () => {
   shopStore.getDataShop();
@@ -101,7 +82,6 @@ const getCicles = async () => {
     ...cycle,
     dialog: false, // Añade el estado del diálogo a cada ciclo
   }));
-  console.log(cicles);
 };
 getCicles();
 </script>
