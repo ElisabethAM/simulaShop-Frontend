@@ -19,11 +19,11 @@
         <!-- render del boton visualizar -->
         <template v-slot:item="{ item }">
           <tr class="bg-white">
-            <td>{{ item.cycleNumber }}</td>
+            <td>{{ item.displayCycle }}</td>
             <td>{{ item.lastBenefits }}</td>
             <td>
-              <div @click="item.dialog = true">
-                <img src="../assets/play.png" alt="icono" class="play" />
+              <div >
+                <img src="../assets/play.png" @click="item.dialog = true" alt="icono" class="play" />
               </div>
               <v-dialog
                 v-model="item.dialog"
@@ -77,9 +77,11 @@ const headers = [
 
 const getCicles = async () => {
   shopStore.getDataShop();
+  let cicleType = shopStore.shop.cycleType;
   cicles = Object.values(shopStore.cicloDatos);
   cicles = cicles.map((cycle) => ({
     ...cycle,
+    displayCycle: `${cicleType} ${cycle.cycleNumber}`, // Nuevo campo para mostrar en la tabla
     dialog: false, // Añade el estado del diálogo a cada ciclo
   }));
 };
@@ -89,6 +91,7 @@ getCicles();
 <style scoped>
 .play {
   height: 25px;
+  cursor: pointer;
 }
 
 /* el componente no deja editar los estilos de encabezado :B */
