@@ -7,7 +7,6 @@
       <hr />
       <hr />
       <br />
-      <br />
       <!-- tabla de ciclos anteriores -->
       <v-data-table
         :items="cicles"
@@ -51,12 +50,60 @@
     </v-col>
 
     <v-col cols="12">
-      <h2>Proyeccion del siguiente ciclo:</h2>
-      <br />
-      <hr />
-      <hr />
-      <br />
+      <!-- boton de proyecciones -->
+      <v-btn v-if="!showProy"
+        @click="showProyections()"
+        class="d-flex no-focus pa-6 justify-center"
+        color="#B98D4C"
+      >
+        <h3>Ver proyecciones</h3>
+        <img src="../assets/play.png" alt="icono" class="play ml-3" />
+      </v-btn>
 
+      <!-- tabla de Proyecciones -->
+       <br>
+      <div v-if="showProy" class="mb-5">
+        <v-data-table
+        :items="proyections"
+        :headers="headersProy"
+        class="elevation-6 text-start custom-header"
+        :items-per-page="1"
+        hover
+      >
+        <!-- render del boton visualizar -->
+        <template v-slot:item="{ item }">
+          <tr class="bg-white">
+            <td>{{ item.displayCycle }}</td>
+            <td>{{ item.lastBenefits }}</td>
+            <td>
+              <div >
+                <img src="../assets/play.png" @click="item.dialog = true" alt="icono" class="play" />
+              </div>
+              <v-dialog
+                v-model="item.dialog"
+                max-width="1000px"
+                transition="dialog-bottom-transition"
+              >
+                <v-btn
+                  class="text-red position-absolute right-0 close"
+                  text="Cerrar"
+                  variant="text"
+                  size="x-large"
+                  :border="false"
+                  @click="item.dialog = false"
+                ></v-btn>
+                <!-- esto no esta configurado para proyecciones aun -->
+                <DetalleDialog
+                  :numeroCiclo="item.cycleNumber"
+                  :lastBenefits="item.lastBenefits"
+                  :moneyInCycle="item.moneyInCycle"
+                ></DetalleDialog>
+              </v-dialog>
+            </td>
+          </tr>
+        </template>
+      </v-data-table>
+      </div>
     </v-col>
   </v-row>
 </template>
@@ -68,8 +115,16 @@ import DetalleDialog from "../components/detalleDialog.vue";
 
 const shopStore = useShopStore();
 let cicles = [];
+let proyections = [];
+let showProy = ref(false);
 
 const headers = [
+  { title: "Registro", key: "cycleNumber" },
+  { title: "Ganancias", key: "totalEarnings" },
+  { title: "Detalles", key: "Detalles", sortable: false },
+];
+
+const headersProy = [
   { title: "Registro", key: "cycleNumber" },
   { title: "Ganancias", key: "totalEarnings" },
   { title: "Detalles", key: "Detalles", sortable: false },
@@ -86,6 +141,21 @@ const getCicles = async () => {
   }));
 };
 getCicles();
+
+const showProyections=() =>{
+  showProy.value=true;
+}
+const getProyections = async () => {//no he jalado las proyecciones aun
+  shopStore.getDataShop();
+  let cicleType = shopStore.shop.cycleType;
+  proyections = Object.values(shopStore.cicloDatos);
+  proyections = proyections.map((cycle) => ({
+    ...cycle,
+    displayCycle: `${cicleType} ${cycle.cycleNumber}`, // Nuevo campo para mostrar en la tabla
+    dialog: false, // Añade el estado del diálogo a cada ciclo
+  }));
+};
+getProyections();
 </script>
 
 <style scoped>
@@ -99,6 +169,12 @@ getCicles();
   background: #e9d89d !important;
   color: black;
 }
+
+.no-focus:focus {
+  outline: none;
+  /* Elimina el borde de enfoque */
+}
+
 
 .columnas {
   background-color: white;
