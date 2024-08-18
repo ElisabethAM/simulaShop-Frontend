@@ -1,7 +1,7 @@
 <template>
   <v-row>
     <v-col cols="12">
-      <h2 class="my-3">{{shopStore.shop.cycleType}}s anteriores:</h2>
+      <h2 class="my-3">{{ shopStore.shop.cycleType }}s anteriores:</h2>
       <v-divider class="mb-3" :thickness="3"></v-divider>
       <!-- tabla de ciclos anteriores -->
       <v-data-table
@@ -51,6 +51,42 @@
     </v-col>
 
     <v-col cols="12">
+      <div
+        v-if="proyections.length === 0"
+        class="d-flex align-center justify-center"
+      >
+        <h2 class="text-center mb-3 mr-1">
+          Selecciona o agrega productos en el inventario para realizar la
+          proyección
+        </h2>
+        <v-dialog max-width="500" transition="dialog-bottom-transition">
+          <template v-slot:activator="{ props: activatorProps }">
+            <v-btn
+              v-bind="activatorProps"
+              icon="mdi-information"
+              color="brown-darken-4"
+              variant="text"
+              size="large"
+            ></v-btn>
+          </template>
+
+          <template v-slot:default="{ isActive }">
+            <v-card title="Proyecciones" class="bgPredit text-brown-lighten-5">
+              <v-card-text>
+                Para poder realizar la proyeccion del siguiente periodo (Dia,
+                Semana, Mes o Año) es necesario que seleccione en el inventario
+                los productos con los que piensa empezar dicho periodo.
+              </v-card-text>
+
+              <v-card-actions>
+                <v-spacer></v-spacer>
+
+                <v-btn text="Cerrar" @click="isActive.value = false"></v-btn>
+              </v-card-actions>
+            </v-card>
+          </template>
+        </v-dialog>
+      </div>
       <!-- boton de proyecciones -->
       <v-btn
         v-if="!showProy"
@@ -89,9 +125,10 @@
 
       <!-- tabla de Proyecciones -->
       <br />
-      <div v-if="showProy" class="mb-5">
+      <div v-if="showProy && proyections.length > 0" class="mb-5">
         <h2 class="text-center mb-3">
-          Proyeccion para {{ shopStore.shop.cycleType }}: {{ shopStore.shop.currentCycle }}
+          Proyeccion para {{ shopStore.shop.cycleType }}:
+          {{ shopStore.shop.currentCycle }}
         </h2>
         <v-divider class="mb-3" :thickness="3"></v-divider>
         <v-table height="300px" fixed-header class="elevation-6">
