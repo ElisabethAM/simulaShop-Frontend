@@ -1,7 +1,7 @@
 <template>
   <v-row>
     <v-col cols="12">
-      <h2 class="my-3">Ciclos anteriores:</h2>
+      <h2 class="my-3">{{shopStore.shop.cycleType}}s anteriores:</h2>
       <v-divider class="mb-3" :thickness="3"></v-divider>
       <!-- tabla de ciclos anteriores -->
       <v-data-table
@@ -71,7 +71,7 @@
           >
             <template v-slot:prepend>
               <div class="pe-4">
-                <v-icon color="green-lighten-3" size="x-large"></v-icon>
+                <v-icon color="yellow-lighten-3" size="x-large"></v-icon>
               </div>
             </template>
 
@@ -91,7 +91,7 @@
       <br />
       <div v-if="showProy" class="mb-5">
         <h2 class="text-center mb-3">
-          Proyeccion para el ciclo: {{ shopStore.shop.currentCycle }}
+          Proyeccion para {{ shopStore.shop.cycleType }}: {{ shopStore.shop.currentCycle }}
         </h2>
         <v-divider class="mb-3" :thickness="3"></v-divider>
         <v-table height="300px" fixed-header class="elevation-6">
