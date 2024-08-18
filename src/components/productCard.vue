@@ -275,7 +275,6 @@ const updateSelected = async () => {
   };
   await productStore.updateProduct(prodUpdate);
   localProduct.value.disponibles = productStore.product.availableUnits;
-  console.log(localProduct.value.disponibles);
   editing.value = false;
 };
 

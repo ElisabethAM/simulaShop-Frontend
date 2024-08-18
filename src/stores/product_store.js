@@ -63,7 +63,6 @@ export const useProductStore = defineStore("product", () => {
       });
       product.value = res.data.product;
       shopStore.shop = res.data.store;
-      console.log(shopStore.shop);
     } catch (error) {
       console.log(error);
     }

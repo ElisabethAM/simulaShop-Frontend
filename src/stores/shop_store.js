@@ -10,6 +10,7 @@ export const useShopStore = defineStore("shop", () => {
   const shop = ref(shopInitial);
   const ultimoBeneficio = ref(null);
   const cicloDatos = ref(null);
+  const predictions = ref(null);
 
   watch(shop, () => {
     localStorage.setItem("selectedShop", JSON.stringify(shop.value));
@@ -81,15 +82,30 @@ export const useShopStore = defineStore("shop", () => {
     }
   };
 
+  const getPredictions = async () => {
+    try {
+      const res = await axios({
+        url: `http://localhost:5000/api/store/${shop.value._id}/predictions`,
+        method: "GET",
+      });
+
+      predictions.value = res.data.predictions;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return {
     shops,
     ultimoBeneficio,
     cicloDatos,
     shop,
+    predictions,
     createShop,
     getShops,
     getShop,
     getBenefits,
     getDataShop,
+    getPredictions,
   };
 });
