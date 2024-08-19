@@ -131,7 +131,7 @@
           {{ shopStore.shop.currentCycle }}
         </h2>
         <v-divider class="mb-3" :thickness="3"></v-divider>
-        <v-table height="300px" fixed-header class="elevation-6">
+        <v-table  fixed-header class="elevation-6">
           <thead>
             <tr>
               <th class="text-left encabezado">Producto</th>

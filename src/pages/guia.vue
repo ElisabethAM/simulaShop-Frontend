@@ -40,6 +40,7 @@
             <v-carousel-item :src="modelo3"></v-carousel-item>
             <v-carousel-item :src="modelo4"></v-carousel-item>
             <v-carousel-item :src="modelo5"></v-carousel-item>
+            <v-carousel-item :src="modelo6"></v-carousel-item>
 
         </v-carousel>
         </v-card>
@@ -62,6 +63,7 @@ import modelo2 from "../assets/guia/modelo2.png";
 import modelo3 from "../assets/guia/modelo3.png";
 import modelo4 from "../assets/guia/modelo4.png";
 import modelo5 from "../assets/guia/modelo5.png";
+import modelo6 from "../assets/guia/modelo6.png";
 
 const guia = ref(false);
 const modelo = ref(false);
