@@ -38,7 +38,7 @@
           </v-select>
         </v-col>
       </v-row>
-      <v-row>
+      <!-- <v-row>
         <v-col cols="4">
           <h2>Cantidad de ciclos:</h2>
         </v-col>
@@ -53,7 +53,7 @@
           >
           </v-text-field>
         </v-col>
-      </v-row>
+      </v-row> -->
       <v-row>
         <v-col cols="4">
           <h2>Beneficios iniciales:</h2>
@@ -80,7 +80,7 @@
           <v-col cols="11">
             <h4>
               El nuevo registro de beneficios de la
-              {{ storeName ? storeName : "Tienda" }} contará con {{ quantity }}
+              {{ storeName ? storeName : "Tienda" }} sera del tipo 
               {{ cicleType }}.
             </h4>
           </v-col>
@@ -108,9 +108,8 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useShopStore } from "../stores/shop_store.js";
 
-const name = "NuevaTienda";
 const storeName = ref(null);
-const quantity = ref(null);
+const quantity = ref(30);//por mientras
 const cicleType = ref(null);
 const idStore = ref(null);
 const intialBenefits = ref(null);
