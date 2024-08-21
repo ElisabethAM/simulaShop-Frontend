@@ -132,19 +132,6 @@
             />
           </v-col>
         </v-row>
-        <v-row class="px-5 mb-4">
-          <v-col cols="7" class="text-left py-0">
-            <p>En bodega:</p>
-          </v-col>
-          <v-col cols="4" class="py-0">
-            <input
-              v-model="newDisponibles"
-              type="text"
-              class="columnas"
-              placeholder="0.00"
-            />
-          </v-col>
-        </v-row>
       </main>
       <v-card-actions>
         <v-spacer></v-spacer>
@@ -183,7 +170,6 @@ const newPrecioCompra = ref();
 const newPrecioVenta = ref();
 const newDemandaMin = ref();
 const newDemandaMax = ref();
-const newDisponibles = ref();
 const benefits = ref("10,000,000");
 const newTipo = ref(); //para las imagenes de los prods
 

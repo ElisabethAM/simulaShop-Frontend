@@ -40,22 +40,6 @@
       </v-row>
       <v-row>
         <v-col cols="4">
-          <h2>Cantidad de ciclos:</h2>
-        </v-col>
-        <v-col cols="7">
-          <v-text-field
-            v-model="quantity"
-            dense
-            placeholder="5"
-            type="number"
-            :rules="[(v) => !!v || 'Este campo no puede estar vacío']"
-            required
-          >
-          </v-text-field>
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col cols="4">
           <h2>Beneficios iniciales:</h2>
         </v-col>
         <v-col cols="7">
@@ -110,7 +94,7 @@ import { useShopStore } from "../stores/shop_store.js";
 
 const name = "NuevaTienda";
 const storeName = ref(null);
-const quantity = ref(null);
+const quantity = ref(0);
 const cicleType = ref(null);
 const idStore = ref(null);
 const intialBenefits = ref(null);
