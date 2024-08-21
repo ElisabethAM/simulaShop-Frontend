@@ -64,7 +64,7 @@
           <v-col cols="11">
             <h4>
               El nuevo registro de beneficios de la
-              {{ storeName ? storeName : "Tienda" }} contará con {{ quantity }}
+              {{ storeName ? storeName : "Tienda" }} sera del tipo 
               {{ cicleType }}.
             </h4>
           </v-col>
@@ -92,7 +92,6 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useShopStore } from "../stores/shop_store.js";
 
-const name = "NuevaTienda";
 const storeName = ref(null);
 const quantity = ref(0);
 const cicleType = ref(null);

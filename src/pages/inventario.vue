@@ -43,7 +43,7 @@
   </v-row>
 
   <!-- dialogo para agregar producto -->
-  <v-dialog v-model="showNewProdDialog" max-width="600">
+  <v-dialog v-model="showNewProdDialog" max-width="500">
     <v-card>
       <v-card-title class="headline">Agregar Producto</v-card-title>
       <br />
@@ -171,7 +171,7 @@ const newPrecioVenta = ref();
 const newDemandaMin = ref();
 const newDemandaMax = ref();
 const benefits = ref("10,000,000");
-const newTipo = ref(); //para las imagenes de los prods
+const newTipo = ref();
 
 const addProduct = async () => {
   const newProduct = {
